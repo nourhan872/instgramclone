@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-</head>    
+</head>  
+<body>  
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
     <div class="container-fluid">
@@ -76,6 +77,10 @@
       </div>
     </div>
   </nav>
+  <div class="container">
+    @yield('content')
+  </div>
+</body>
   
 
 <script src="https://kit.fontawesome.com/caa6082b62.js" crossorigin="anonymous"></script>
