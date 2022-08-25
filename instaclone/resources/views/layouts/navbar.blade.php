@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="icon" href="./svg/instalogo.svg">
 </head>  
 <body>  
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -57,8 +58,8 @@
                 </li>
                 <!-- Avatar -->
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle d-flex align-items-center" href="" id="navbarDropdownMenuLink"
-                    role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://mdbootstrap.com/img/new/avatars/1.jpg" class="rounded-circle" height="22" alt=""
                       loading="lazy" />
                   </a>

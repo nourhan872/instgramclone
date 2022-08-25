@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class userController extends Controller
+class profileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,6 @@ class userController extends Controller
      */
     public function index($user)
     {
-        dd($user);
     }
 
     /**
@@ -23,7 +23,6 @@ class userController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -45,7 +44,8 @@ class userController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('profile.index', ['user' => $user]);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\postController;
+use App\Http\Controllers\profileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +23,8 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth'])->name('home');
 
-require __DIR__ . '/auth.php';
+
+
+Route::get('/profile/{id}', [profileController::class, 'show'])->where(['id' => '[0-9]+'])->name('profile.show');
+Route::get('/post/create', [postController::class, 'create'])->name('posts.create');
+Route::get('/post', [postController::class, 'store'])->name('posts.store');

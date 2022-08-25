@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\post;
 use Illuminate\Http\Request;
 
-class userController extends Controller
+class postController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user)
+    public function index()
     {
-        dd($user);
+        //
     }
 
     /**
@@ -23,7 +24,7 @@ class userController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -34,7 +35,9 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request;
+        auth()->user()->posts->post::create($data);
+        dd($data->all());
     }
 
     /**
