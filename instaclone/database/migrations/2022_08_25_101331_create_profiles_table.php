@@ -19,8 +19,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->string('bio');
+            $table->string('gender');
+            $table->string('webiste');
+            $table->string('image');
             $table->timestamps();
         });
     }

@@ -18,13 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth'])->name('home');
-
-
-
-Route::get('/profile/{id}', [profileController::class, 'show'])->where(['id' => '[0-9]+'])->name('profile.show');
-Route::get('/post/create', [postController::class, 'create'])->name('posts.create');
-Route::get('/post', [postController::class, 'store'])->name('posts.store');
+Route::resource('posts', postController::class);
+Route::resource('profile', profileController::class);
+require __DIR__.'/auth.php';

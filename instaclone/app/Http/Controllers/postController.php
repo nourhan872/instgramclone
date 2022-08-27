@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\post;
 use Illuminate\Http\Request;
+use App\Models\Image;
+
+
 
 class postController extends Controller
 {
@@ -14,7 +17,14 @@ class postController extends Controller
      */
     public function index()
     {
-        //
+        $posts = post::orderBy('id','desc')->paginate(5);
+
+        $user = auth()->user();
+
+ 
+
+        return view('posts.index', compact('posts','user'));
+ 
     }
 
     /**
@@ -24,7 +34,8 @@ class postController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $user = auth()->user();
+        return view('posts.create', compact('user'));
     }
 
     /**
@@ -35,9 +46,27 @@ class postController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request;
-        auth()->user()->posts->post::create($data);
-        dd($data->all());
+        $request->validate([
+      
+            'image' => 'required',
+      
+        ]);
+       
+        $post = new post();
+        $post->caption = $request->caption;
+
+        $post->user_id = auth()->user()->id;
+        $post->save();
+        foreach ($request->file('image') as $imagefile) {  
+            $image = new Image;
+            $path = $imagefile->store('public/images');
+            $image->post_id = $post->id;
+            
+            
+            $image->image = basename($path);
+            $image->save();
+   }
+        return redirect()->route('posts.index')->with('success','Post created successfully.');
     }
 
     /**
@@ -48,7 +77,11 @@ class postController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = post::find($id);
+        $image = Image::where('post_id',$id)->get();
+        $user = auth()->user();
+        return view('posts.show', compact('post','image','user'));
+      
     }
 
     /**
@@ -57,10 +90,12 @@ class postController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+   public function edit($id)
     {
-        //
+        $post = post::find($id);
+        return view('posts.edit', compact('post'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -71,8 +106,46 @@ class postController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'image' => 'required',
+        ]);
+        $post = post::find($id);
+        $post->caption = $request->caption;
+        $post->save();
+        foreach ($request->file('image') as $imagefile) {  
+            $image = new Image;
+            $path = $imagefile->store('public/images');
+            $image->post_id = $post->id;
+            
+            
+            $image->image = basename($path);
+            $image->save();
     }
+        return redirect()->route('posts.index')->with('success','Post updated successfully.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     /**
      * Remove the specified resource from storage.
@@ -82,6 +155,12 @@ class postController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = post::find($id);
+        $image = Image::where('post_id',$id)->get();
+        foreach($image as $img){
+            $img->delete();
+        }
+        $post->delete();
+        return redirect()->route('posts.index')->with('success','Post deleted successfully');
     }
 }

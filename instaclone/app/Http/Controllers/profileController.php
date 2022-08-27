@@ -23,7 +23,9 @@ class profileController extends Controller
      */
     public function create()
     {
+        return view('profile.create');
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -33,7 +35,15 @@ class profileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input =  $request->all();
+        if($request->file('image')->isValid()){
+            $path = $request->file('image')->store('public/images');
+            $input['image'] = basename($path);
+        }
+        $user = auth()->user();
+       
+        $user->profile()->create($input);
+        return redirect()->route('profile.show', $user->id);
     }
 
     /**
@@ -44,8 +54,18 @@ class profileController extends Controller
      */
     public function show($id)
     {
+       
+        $profile = User::find($id)->profile;
+
         $user = User::find($id);
-        return view('profile.index', ['user' => $user]);
+
+        $posts = $user->posts;
+
+        return view('profile.index', ['profile' => $profile, 'posts' => $posts]);
+       
+       
+       
+        
     }
 
     /**
@@ -56,7 +76,9 @@ class profileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $profile = User::find($id)->profile;
+
+        return view('profile.edit', ['profile' => $profile]);
     }
 
     /**
@@ -68,7 +90,14 @@ class profileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input =  $request->only(['bio', 'gender', 'webiste']);
+        if($request->file('image')->isValid()){
+            $path = $request->file('image')->store('public/images');
+            $input['image'] = basename($path);
+        }
+        $user = auth()->user();
+        $user->profile()->update($input);
+        return redirect()->route('profile.show', $user->id);
     }
 
     /**
